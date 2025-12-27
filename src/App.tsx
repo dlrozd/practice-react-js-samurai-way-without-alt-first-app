@@ -1,27 +1,43 @@
 import './App.css'
 
+// const tracks = null;
+
+const tracks = [
+    {
+        id: 1,
+        title: 'Music soundtrack',
+        artist: 'Musician',
+        url: 'https://music.youtube.com/watch?v=McZUN-afYy4&si=Q3z5wkcfUXekbFOg',
+    },
+    {
+        id: 2,
+        title: 'Music soundtrack instrumental',
+        artist: 'Musician',
+        url: 'https://music.youtube.com/playlist?list=OLAK5uy_nCtCUGc3R9V4Hb2qLIdScnRrtP2mhILKQ&si=Mib1mpkrUhSdgqY6'
+    },
+]
+
+const selectedTrackId = null;
+
 function App() {
-    const tracks = [
-        {
-            id: 1,
-            title: 'Music soundtrack',
-            artist: 'Musician',
-            url: 'https://music.youtube.com/watch?v=McZUN-afYy4&si=Q3z5wkcfUXekbFOg'
-        },
-        {
-            id: 2,
-            title: 'Music soundtrack instrumental',
-            artist: 'Musician',
-            url: 'https://music.youtube.com/playlist?list=OLAK5uy_nCtCUGc3R9V4Hb2qLIdScnRrtP2mhILKQ&si=Mib1mpkrUhSdgqY6'
-        },
-    ]
 
-    const tasks = [
-        {id: 1, title: "Купить продукты на неделю", isDone: false},
-        {id: 2, title: "Полить цветы", isDone: true},
-        {id: 3, title: "Сходить на тренировку", isDone: false},
-    ]
+    if (tracks === null) {
+        return (
+            <div>
+                <h1>Music Fun Player</h1>
+                <p>Loading...</p>
+            </div>
+        )
+    }
 
+    if (tracks.length === 0) {
+        return (
+            <div>
+                <h1>Music Fun Player</h1>
+                <p>No tracks found</p>
+            </div>
+        )
+    }
 
     return (
         <>
@@ -29,8 +45,9 @@ function App() {
             <ul>
                 {
                     tracks.map(track => {
+
                         return (
-                            <li key={track.id}>
+                            <li key={track.id} style={{border: track.id === selectedTrackId ? '2px solid violet' : 'none'}}>
                                 <div>{track.title} </div>
                                 <audio src={track.url} controls>{track.artist}</audio>
                             </li>
@@ -38,24 +55,6 @@ function App() {
                     })
                 }
             </ul>
-
-            <h1>Список дел:</h1>
-            <ul>
-                {tasks.map(task => {
-
-                    return (
-                        <li key={task.id}>
-                            <div className='checkbox'>
-                                {task.title}
-                                <input type="checkbox" checked={task.isDone}/>
-                            </div>
-
-                        </li>
-                    )
-                })}
-
-            </ul>
-
         </>
     )
 }
