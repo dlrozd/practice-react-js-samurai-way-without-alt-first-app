@@ -1,21 +1,26 @@
 import './App.css'
 import {useEffect, useState} from "react";
 
-
-
+interface Track {
+    id: number;
+    attributes: {
+        title: string;
+        attachments: { url: string }[];
+    };
+}
 
 function App() {
 
 
     const [selectedTrackId, setSelectedTrackId] = useState<number | null>(null);
-    const [tracks, setTracks] = useState([])
+    const [tracks, setTracks] = useState<Track[] | null>([])
 
     useEffect(() => {
         console.log("effect")
 
         fetch("https://musicfun.it-incubator.app/api/1.0/playlists/tracks", {
             headers: {
-                "api-key": "0e0d1907-125b-437f-bba3-488ac8d73c4b",
+                "api-key": "7fddcc08-7109-4369-88ea-5037c0b497e3",
             },
         })
             .then((res) => res.json())
@@ -23,8 +28,6 @@ function App() {
                 setTracks(json.data)
             })
     }, [])
-
-
 
 
     if (tracks === null) {
@@ -46,25 +49,31 @@ function App() {
     }
 
 
-
     return (
         <>
-            <h1>Music Fun Player</h1>
-            <button onClick={() => {setSelectedTrackId(null)}}>reset</button>
-            <hr/>
+            <h1>Music Fun Player 🎧</h1>
+            <button onClick={() => {
+                setSelectedTrackId(null)
+            }}> Reset Selection
+            </button>
             <ul>
-                {
-                    tracks.map(track => {
+                {tracks.map(track => {
 
-                        return (
-                            <li key={track.id} style={{border: track.id === selectedTrackId ? '2px solid violet' : 'none'}}>
-                                <div onClick={() => {setSelectedTrackId(track.id)}}>
-                                    {track.title}
-                                </div>
-                                <audio src={track.url} controls>{track.artist}</audio>
-                            </li>
-                        )
-                    })
+                    const isSelected = track.id === selectedTrackId;
+
+                    return (
+                        <li key={track.id}
+                            className={isSelected ? 'selected' : ''}>
+                            <div
+                                className="track-title"
+                                title={track.attributes.title}
+                                onClick={() => {setSelectedTrackId(track.id)}}>
+                                {track.attributes.title}
+                            </div>
+                            <audio src={track.attributes.attachments[0].url} controls></audio>
+                        </li>
+                    )
+                })
                 }
             </ul>
         </>
