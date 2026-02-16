@@ -91,6 +91,7 @@ function App() {
                     })}
                 </ul>
 
+
                 <div>
                     <h2>Details</h2>
                     {selectedTrack === null ?
